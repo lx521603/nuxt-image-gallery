@@ -11,10 +11,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   site: {
-    url: 'https://image-gallery.nuxt.dev/',
+    url: 'nuxt-image-gallery-8d5.pages.dev',
     name: 'Nuxt Image Gallery',
     description: 'A beautiful, full-stack image gallery application built with Nuxt on the edge',
-    defaultLocale: 'en',
+    defaultLocale: 'zh_CN',
     indexable: true,
     env: 'production',
     trailingSlash: false
