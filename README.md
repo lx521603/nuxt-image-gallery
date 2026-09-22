@@ -1,8 +1,36 @@
 # NuxtHub Image Gallery Starter Template
 
-This starter lets you get started with [NuxtHub Blob](https://hub.nuxt.com/docs/storage/blob) in seconds.
+# NuxtHub Image Gallery Starter Template
+ 
+## Cloudflare Pages Deployment Notes
+ 
+If you get:
+ 
+```
+Error: Missing Cloudflare BLOB binding (R2)
+```
 
-[![Deploy to NuxtHub](https://hub.nuxt.com/button.svg)](https://admin.hub.nuxt.com/new?template=image-gallery)
+Make sure your R2 binding name is:
+
+```
+BLOB
+```
+
+and not:
+
+```
+hubBlob
+```
+
+Example:
+
+```
+Type: R2 Bucket
+Binding name: BLOB
+Bucket: your-bucket-name
+```
+
+This gallery reads images directly from R2 using NuxtHub Blob. Images uploaded from either the website or the Cloudflare R2 dashboard will appear immediately without rebuilding or redeploying.
 
 https://github.com/Flosciante/nuxt-image-gallery/assets/904724/6e2bafdf-f5a0-42cf-b1f8-1d11c6ec919f
 
