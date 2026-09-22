@@ -38,7 +38,7 @@ async function uploadFile (file: File) {
   uploadingImg.value = true
 
   await uploadImage(file)
-    .catch(() => toast.add({ title: 'An error occured', description: 'Please try again', color: 'red' }))
+    .catch(() => toast.add({ title: '发生错误', description: '请重试', color: 'red' }))
     .finally(() => uploadingImg.value = false)
 }
 
@@ -46,7 +46,7 @@ async function deleteFile (pathname: string) {
   deletingImg.value = pathname
 
   await deleteImage(pathname)
-    .catch(() => toast.add({ title: 'An error occured', description: 'Please try again', color: 'red' }))
+    .catch(() => toast.add({ title: '发生错误', description: '请重试', color: 'red' }))
     .finally(() => deletingImg.value = '')
 }
 
@@ -67,9 +67,9 @@ async function clearSession () {
         <template #description>
           <div class="flex gap-x-4 items-center">
             <p class="bottom-menu-description text-sm sm:text-base leading-tight sm:leading-normal">
-              Media Gallery template
+              Fairy.li
             </p>
-            <NuxtLink to="https://github.com/Flosciante/nuxt-image-gallery" target="blank" class="flex items-center">
+            <NuxtLink to="https://github.com/lx521603/nuxt-image-gallery" target="blank" class="flex items-center">
               <UIcon name="i-simple-icons-github" class="w-5 h-5" />
             </NuxtLink>
           </div>
@@ -78,12 +78,12 @@ async function clearSession () {
           <div class="flex gap-x-2">
             <UButton v-if="loggedIn" :loading="disconnect" icon="i-heroicons-power-20-solid" color="red" variant="ghost"
               @click="clearSession" />
-            <UModal v-model:open="isOpen" title="Login to upload images" :close="{
+            <UModal v-model:open="isOpen" title="您必须登录才能开始上传图片" :close="{
               color: 'gray',
               variant: 'outline',
               class: 'rounded-full'
             }">
-              <UButton v-if="!loggedIn" label="Sign in" color="primary" variant="ghost" aria-label="Sign in"
+              <UButton v-if="!loggedIn" label="登录" color="primary" variant="ghost" aria-label="Sign in"
                 class="mr-4 sm:mr-0" />
               <template #body>
                 <LoginForm @close="isOpen = false" />
@@ -101,10 +101,10 @@ async function clearSession () {
         </div>
         <div v-else class="text-2xl text-white flex flex-col gap-y-4 items-center justify-center h-full w-full pb-8">
           <h1 class="font-medium text-5xl">
-            Welcome to image gallery
+            Welcome to Fairy.li
           </h1>
           <p class="text-gray-400">
-            You must be logged in to start uploading images
+            您必须登录才能开始上传图片
           </p>
         </div>
 

@@ -31,7 +31,7 @@ async function login () {
 
 <template>
   <form class="flex flex-col gap-y-4 p-4 items-center" @submit.prevent="login">
-    <UInput v-model="password" type="password" placeholder="Enter password" icon="i-heroicons-key" class="!w-60" />
+    <UInput v-model="password" type="password" placeholder="密码" icon="i-heroicons-key" class="!w-60" />
 
     <UButton :loading="loading" type="submit" label="Login" color="primary" variant="ghost" class="px-4" size="lg"
       :disabled="!password" />

@@ -11,9 +11,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   site: {
-    url: 'nuxt-image-gallery-8d5.pages.dev',
-    name: 'Nuxt Image Gallery',
-    description: 'A beautiful, full-stack image gallery application built with Nuxt on the edge',
+    url: 'fairy.li',
+    name: 'Fairy.li',
+    description: 'Fairy',
     defaultLocale: 'zh_CN',
     indexable: true,
     env: 'production',

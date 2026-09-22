@@ -27,13 +27,13 @@ const isSmallScreen = useMediaQuery('(max-width: 1024px)')
             <span
               class="absolute m-auto opacity-0 group-hover:opacity-100 group-hover:translate-y-5 transition-all duration-200 "
               :class="isOverDropZone ? 'text-green-400' : 'text-gray-400'"
-            >Click or Drag & drop to upload</span>
+            >点击上传</span>
           </div>
         </div>
         <div v-else class="h-[100px] md:h-[200px]">
           <div class="relative flex flex-col w-full h-full justify-center items-center ">
             <UIcon name="i-heroicons-arrow-up-tray" class="w-12 h-12 text-white" />
-            <span class="text-white">Press to upload</span>
+            <span class="text-white">点击上传</span>
           </div>
         </div>
       </div>

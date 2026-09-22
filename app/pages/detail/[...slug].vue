@@ -17,9 +17,9 @@ watchEffect(() => {
     const imageUrl = `https://image-gallery.nuxt.dev/images/${image.value.pathname}`
 
     useSeoMeta({
-      title: `${imageName} - Nuxt Image Gallery`,
-      description: `View ${imageName} in high quality. Part of our curated image gallery collection.`,
-      ogTitle: `${imageName} - Nuxt Image Gallery`,
+      title: `${imageName} - Fairy`,
+      description: `View ${imageName} Fairy`,
+      ogTitle: `${imageName} - Fairy`,
       ogDescription: `View ${imageName} in high quality. Part of our curated image gallery collection.`,
       ogImage: imageUrl,
       ogImageAlt: imageName,

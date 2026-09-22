@@ -5,7 +5,7 @@ defineEmits(['resetFilter', 'closeFilter'])
 <template>
   <div class="p-5 flex flex-col justify-between w-[350px] bg-gray-900 z-50 rounded-lg border border-zinc-700">
     <div>
-      <span class="text-white">Filters</span>
+      <span class="text-white">过滤</span>
       <div class="mt-[28px] ">
         <slot />
       </div>
