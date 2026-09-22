@@ -6,12 +6,12 @@ useHead({
     { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'en'
+    lang: 'zh_CN'
   }
 })
 
-const title = 'NuxtHub Image Gallery Starter'
-const description = 'A Nuxt template to build your full-stack image gallery application on the edge.'
+const title = '老李'
+const description = '测试中'
 
 useSeoMeta({
   title,
