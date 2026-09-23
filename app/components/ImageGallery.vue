@@ -59,7 +59,8 @@ async function clearSession () {
 
 <template>
   <div>
-    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen p-4">
+    <!-- 👇 核心修复：将 p-4 改为 px-0 sm:px-4 py-4，确保手机端左右绝对为 0 -->
+    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen px-0 sm:px-4 py-4">
       <BottomMenu class="bottom-menu">
         <template #logo>
           <img src="/logo.svg" width="29" height="20">
@@ -93,6 +94,7 @@ async function clearSession () {
         </template>
       </BottomMenu>
 
+      <!-- 内部容器 padding 全部清零，完全由外层 section 控制 -->
       <div class="w-full masonry-container">
         
         <div v-if="!loggedIn" class="masonry-item text-2xl text-white flex flex-col gap-y-4 p-4">
@@ -156,39 +158,36 @@ async function clearSession () {
   }
 }
 
-/* 手机端（单列）：绝对满屏，左右无空隙 */
+/* 瀑布流容器：内部 padding 彻底清零，完全交给外层 section 控制 */
 .masonry-container {
   column-count: 1;
   column-gap: 8px;
   margin: 0;
-  padding: 0; /* 关键：手机端左右 padding 为 0，实现满屏 */
+  padding: 0; 
 }
 
-/* 平板端：3列，宽度缩小，并添加左右边距防止贴边 */
+/* 平板端：3列 */
 @media screen and (min-width: 640px) {
   .masonry-container {
     column-count: 3;
-    padding: 0 8px; 
   }
 }
 
-/* 桌面端：4列，宽度进一步缩小 */
+/* 桌面端：4列 */
 @media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 4;
-    padding: 0 16px; 
   }
 }
 
-/* 宽屏端：5列，宽度精准缩小约 20% */
+/* 宽屏端：5列 */
 @media screen and (min-width: 1536px) {
   .masonry-container {
     column-count: 5;
-    padding: 0 24px; 
   }
 }
 
-/* 瀑布流项目：上下间距 8px，左右由容器控制 */
+/* 瀑布流项目：上下间距 8px */
 .masonry-item {
   display: inline-block;
   margin: 0 0 8px 0;
