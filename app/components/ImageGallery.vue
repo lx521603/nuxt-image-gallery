@@ -118,7 +118,7 @@ async function clearSession () {
             <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]">
               <img v-if="image" width="527" height="430" :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
-                class="h-auto w-full max-h-[430px] rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter] object-cover">
+                class="h-auto w-full rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
             </NuxtLink>
           </li>
         </ul>
