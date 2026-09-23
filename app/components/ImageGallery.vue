@@ -59,7 +59,7 @@ async function clearSession () {
 
 <template>
   <div>
-    <section v-if="images" ref="dropZoneRef" class="relative h-screen gap-[22px] p-4">
+    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen gap-[22px] p-4">
       <BottomMenu class="bottom-menu">
         <template #logo>
           <img src="/logo.svg" width="29" height="20">
@@ -93,13 +93,13 @@ async function clearSession () {
         </template>
       </BottomMenu>
 
-      <div class="w-full" :class="{ 'masonry-container': images && images.length }">
+      <div class="w-full masonry-container">
         <div v-if="loggedIn">
           <input ref="fileInput" class="hidden" type="file" accept="image/*" @change="fileSelection">
           <UploadButton :uploading="uploadingImg" type="submit" class="mb-6" :is-over-drop-zone="isOverDropZone"
             @click="openFilePicker" />
         </div>
-        <div v-else class="text-2xl text-white flex flex-col gap-y-4 items-center justify-center h-full w-full pb-8">
+        <div v-else class="text-2xl text-white flex flex-col gap-y-4 items-center justify-center h-[60vh] w-full pb-8">
           <h1 class="font-medium text-5xl">
             Welcome to Fairy.li
           </h1>
@@ -108,21 +108,21 @@ async function clearSession () {
           </p>
         </div>
 
-        <!-- 恢复原本能正常撑开宽度的结构 -->
-        <ul v-if="images && images.length" class="grid grid-cols-1 gap-4 lg:block">
+        <!-- 瀑布流列表 -->
+        <ul v-if="images && images.length" class="masonry-list">
           <li v-for="image in images" ref="mansoryItem" :key="image.pathname"
-            class="relative w-full group masonry-item">
+            class="masonry-item relative group">
             
             <UButton v-if="loggedIn" :loading="deletingImg === image.pathname" color="white"
               icon="i-heroicons-trash-20-solid"
               class="absolute top-4 right-4 z-[9999] opacity-0 group-hover:opacity-100 transition-opacity duration-200"
               @click="deleteFile(image.pathname)" />
               
-            <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]">
-              <!-- 核心修改：保留 width/height 防止塌陷，去掉 max-h 和 object-cover，彻底解放比例 -->
-              <img v-if="image" width="527" height="430" :src="`/images/${image.pathname}`"
+            <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]" class="block">
+              <!-- 核心：等比例缩放黄金法则，绝不变形，且限制最大尺寸 -->
+              <img v-if="image" :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
-                class="h-auto w-full rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
+                class="max-w-full max-h-[65vh] w-auto h-auto mx-auto rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
                 alt="Gallery Image" />
             </NuxtLink>
             
@@ -131,7 +131,7 @@ async function clearSession () {
       </div>
     </section>
     
-    <div v-else class="flex items-center space-x-4 z-10">
+    <div v-else class="flex items-center space-x-4 z-10 p-4">
       <USkeleton class="h-12 w-12 bg-white-500" :ui="{ rounded: 'rounded-full' }" />
       <div class="space-y-2">
         <USkeleton class="h-4 w-[250px] bg-white-500" />
@@ -169,24 +169,41 @@ async function clearSession () {
   }
 }
 
-/* 保留你原本写好的完美瀑布流 CSS */
+/* 完美复刻 Next.js 的响应式瀑布流列数 */
+.masonry-list {
+  column-count: 1;
+  column-gap: 16px;
+  margin: 20px auto 0;
+  padding: 0 1rem;
+}
+
+@media screen and (min-width: 640px) {
+  .masonry-list {
+    column-count: 2;
+  }
+}
+
 @media screen and (min-width: 1024px) {
-  .masonry-container {
+  .masonry-list {
     column-count: 3;
     column-gap: 20px;
-    column-fill: balance;
-    margin: 20px auto 0;
-    padding: 2rem;
+    padding: 0 2rem;
   }
+}
 
-  .masonry-item,
-  .upload {
-    display: inline-block;
-    margin: 0 0 20px;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    width: 100%;
+/* 宽屏下实现 Next.js 同款的 4 列布局 */
+@media screen and (min-width: 1536px) {
+  .masonry-list {
+    column-count: 4;
   }
+}
+
+.masonry-item {
+  display: inline-block;
+  margin: 0 0 20px;
+  width: 100%;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
 }
 </style>
