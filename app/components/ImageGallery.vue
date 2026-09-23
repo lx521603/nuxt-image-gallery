@@ -99,7 +99,9 @@ async function clearSession () {
           <UploadButton :uploading="uploadingImg" type="submit" class="mb-6" :is-over-drop-zone="isOverDropZone"
             @click="openFilePicker" />
         </div>
-        <div v-else class="text-2xl text-white flex flex-col gap-y-4 items-center justify-center h-[60vh] w-full pb-8">
+        
+        <!-- 修改点：去掉了 h-[60vh]、w-full、items-center 等撑满和居中属性，回归自然文本流 -->
+        <div v-else class="text-2xl text-white flex flex-col gap-y-4 py-8">
           <h1 class="font-medium text-5xl">
             Welcome to Fairy.li
           </h1>
@@ -119,7 +121,6 @@ async function clearSession () {
               @click="deleteFile(image.pathname)" />
               
             <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]" class="block">
-              <!-- 核心：等比例缩放黄金法则，绝不变形，且限制最大尺寸 -->
               <img v-if="image" :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
                 class="max-w-full max-h-[65vh] w-auto h-auto mx-auto rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
@@ -169,7 +170,6 @@ async function clearSession () {
   }
 }
 
-/* 完美复刻 Next.js 的响应式瀑布流列数 */
 .masonry-list {
   column-count: 1;
   column-gap: 16px;
@@ -191,7 +191,6 @@ async function clearSession () {
   }
 }
 
-/* 宽屏下实现 Next.js 同款的 4 列布局 */
 @media screen and (min-width: 1536px) {
   .masonry-list {
     column-count: 4;
