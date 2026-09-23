@@ -156,36 +156,39 @@ async function clearSession () {
   }
 }
 
-/* 瀑布流容器：间距翻倍 (4px -> 8px) */
+/* 手机端（单列）：绝对满屏，左右无空隙 */
 .masonry-container {
   column-count: 1;
   column-gap: 8px;
   margin: 0;
-  padding: 0 8px; /* 两侧留出一点边距，更美观 */
+  padding: 0; /* 关键：手机端左右 padding 为 0，实现满屏 */
 }
 
-/* 平板：2列变3列 (宽度缩小约 33%) */
+/* 平板端：3列，宽度缩小，并添加左右边距防止贴边 */
 @media screen and (min-width: 640px) {
   .masonry-container {
     column-count: 3;
+    padding: 0 8px; 
   }
 }
 
-/* 桌面端：3列变4列 (宽度缩小 25%) */
+/* 桌面端：4列，宽度进一步缩小 */
 @media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 4;
+    padding: 0 16px; 
   }
 }
 
-/* 宽屏：4列变5列 (宽度精准缩小 20%) */
+/* 宽屏端：5列，宽度精准缩小约 20% */
 @media screen and (min-width: 1536px) {
   .masonry-container {
     column-count: 5;
+    padding: 0 24px; 
   }
 }
 
-/* 瀑布流项目：间距翻倍 (4px -> 8px) */
+/* 瀑布流项目：上下间距 8px，左右由容器控制 */
 .masonry-item {
   display: inline-block;
   margin: 0 0 8px 0;
