@@ -108,43 +108,29 @@ async function clearSession () {
           </p>
         </div>
 
-                <!-- 完美复刻 Next.js 瀑布流布局 -->
-        <div v-if="images && images.length" class="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4 px-2 sm:px-4">
-          
-          <div 
-            v-for="image in images" 
-            :key="image.pathname" 
-            class="relative mb-4 break-inside-avoid group"
-          >
-            <!-- 删除按钮 (悬浮显示) -->
-            <UButton 
-              v-if="loggedIn" 
-              :loading="deletingImg === image.pathname" 
-              color="white"
+        <!-- 恢复原本能正常撑开宽度的结构 -->
+        <ul v-if="images && images.length" class="grid grid-cols-1 gap-4 lg:block">
+          <li v-for="image in images" ref="mansoryItem" :key="image.pathname"
+            class="relative w-full group masonry-item">
+            
+            <UButton v-if="loggedIn" :loading="deletingImg === image.pathname" color="white"
               icon="i-heroicons-trash-20-solid"
               class="absolute top-4 right-4 z-[9999] opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              @click="deleteFile(image.pathname)" 
-            />
-            
-            <!-- 图片链接 -->
-            <NuxtLink 
-              :to="`/detail/${image.pathname.split('.')[0]}`" 
-              @click="active = image.pathname.split('.')[0]"
-              class="block w-full"
-            >
-              <!-- 核心：纯粹的 w-full + h-auto，无任何裁切或高度限制！ -->
-              <img 
-                :src="`/images/${image.pathname}`"
+              @click="deleteFile(image.pathname)" />
+              
+            <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]">
+              <!-- 核心修改：保留 width/height 防止塌陷，去掉 max-h 和 object-cover，彻底解放比例 -->
+              <img v-if="image" width="527" height="430" :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
-                class="w-full h-auto rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
-                alt="Gallery Image"
-              />
+                class="h-auto w-full rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
+                alt="Gallery Image" />
             </NuxtLink>
             
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
+    
     <div v-else class="flex items-center space-x-4 z-10">
       <USkeleton class="h-12 w-12 bg-white-500" :ui="{ rounded: 'rounded-full' }" />
       <div class="space-y-2">
@@ -183,6 +169,7 @@ async function clearSession () {
   }
 }
 
+/* 保留你原本写好的完美瀑布流 CSS */
 @media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 3;
