@@ -22,7 +22,6 @@ function openFilePicker () {
 
 async function fileSelection (event: Event) {
   const target = event.target as HTMLInputElement
-
   if (target.files?.[0]) {
     await uploadFile(target.files[0])
   }
@@ -36,7 +35,6 @@ async function onDrop (files: File[] | null) {
 
 async function uploadFile (file: File) {
   uploadingImg.value = true
-
   await uploadImage(file)
     .catch(() => toast.add({ title: '发生错误', description: '请重试', color: 'red' }))
     .finally(() => uploadingImg.value = false)
@@ -44,7 +42,6 @@ async function uploadFile (file: File) {
 
 async function deleteFile (pathname: string) {
   deletingImg.value = pathname
-
   await deleteImage(pathname)
     .catch(() => toast.add({ title: '发生错误', description: '请重试', color: 'red' }))
     .finally(() => deletingImg.value = '')
@@ -52,14 +49,12 @@ async function deleteFile (pathname: string) {
 
 async function clearSession () {
   disconnect.value = true
-
   await clear().finally(() => disconnect.value = false)
 }
 </script>
 
 <template>
   <div>
-    <!-- 👇 核心修复：将 p-4 改为 px-0 sm:px-4 py-4，确保手机端左右绝对为 0 -->
     <section v-if="images" ref="dropZoneRef" class="relative min-h-screen px-0 sm:px-4 py-4">
       <BottomMenu class="bottom-menu">
         <template #logo>
@@ -94,16 +89,45 @@ async function clearSession () {
         </template>
       </BottomMenu>
 
-      <!-- 内部容器 padding 全部清零，完全由外层 section 控制 -->
       <div class="w-full masonry-container">
         
-        <div v-if="!loggedIn" class="masonry-item text-2xl text-white flex flex-col gap-y-4 p-4">
-          <h1 class="font-medium text-5xl">
-            Welcome to Fairy.li
-          </h1>
-          <p class="text-gray-400">
-            您必须登录才能开始上传图片
-          </p>
+        <!-- 优化后的 Welcome 卡片：紧凑、高级、带邮箱 -->
+        <div v-if="!loggedIn" class="masonry-item relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 via-gray-900/80 to-black border border-white/5 p-5 sm:p-6 min-h-[180px] flex flex-col justify-center">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+          
+          <div class="relative z-10 flex flex-col gap-3 sm:gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-7 h-7 flex items-center justify-center bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <span class="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400">
+                Visual Gallery
+              </span>
+            </div>
+            
+            <div class="flex flex-col gap-1">
+              <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Fairy.li</span>
+              </h1>
+              <p class="text-xs sm:text-sm text-gray-500 max-w-[200px] leading-relaxed border-l-2 border-indigo-500/50 pl-3">
+                探索视觉的无限可能。
+              </p>
+            </div>
+
+            <!-- 🌟 新增：精致的底部邮箱展示 -->
+            <div class="mt-2 pt-3 border-t border-white/5 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <a href="mailto:x@fairy.li" class="text-xs text-gray-400 hover:text-indigo-400 transition-colors font-mono tracking-wide">
+                x@fairy.li
+              </a>
+            </div>
+          </div>
         </div>
         
         <div v-if="loggedIn" class="masonry-item">
@@ -112,6 +136,7 @@ async function clearSession () {
             @click="openFilePicker" />
         </div>
 
+        <!-- 恢复使用真实的 images 数据 -->
         <template v-if="images && images.length">
           <div v-for="image in images" :key="image.pathname" class="masonry-item relative group">
             
@@ -121,7 +146,8 @@ async function clearSession () {
               @click="deleteFile(image.pathname)" />
               
             <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]" class="block">
-              <img v-if="image" :src="`/images/${image.pathname}`"
+              <img v-if="image" 
+                :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
                 class="w-full h-auto block transition-all duration-200 brightness-[.8] hover:brightness-100 will-change-[filter]"
                 alt="Gallery Image" />
@@ -148,17 +174,14 @@ async function clearSession () {
   .imageEl {
     view-transition-name: vtn-image;
   }
-
   .bottom-menu-description {
     view-transition-name: vtn-bottom-menu-description;
   }
-
   .bottom-menu-button {
     view-transition-name: vtn-bottom-menu-button;
   }
 }
 
-/* 瀑布流容器：内部 padding 彻底清零，完全交给外层 section 控制 */
 .masonry-container {
   column-count: 1;
   column-gap: 8px;
@@ -166,28 +189,24 @@ async function clearSession () {
   padding: 0; 
 }
 
-/* 平板端：3列 */
 @media screen and (min-width: 640px) {
   .masonry-container {
     column-count: 3;
   }
 }
 
-/* 桌面端：4列 */
 @media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 4;
   }
 }
 
-/* 宽屏端：5列 */
 @media screen and (min-width: 1536px) {
   .masonry-container {
     column-count: 5;
   }
 }
 
-/* 瀑布流项目：上下间距 8px */
 .masonry-item {
   display: inline-block;
   margin: 0 0 8px 0;
