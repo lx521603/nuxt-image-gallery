@@ -55,7 +55,7 @@ async function clearSession () {
 
 <template>
   <div>
-    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen px-0 sm:px-4 py-4">
+    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen mx-auto max-w-[1960px] px-4 md:px-8 py-4">
       <BottomMenu class="bottom-menu">
         <template #logo>
           <img src="/logo.svg" width="29" height="20">
