@@ -59,7 +59,7 @@ async function clearSession () {
 
 <template>
   <div>
-    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen gap-[22px] p-4">
+    <section v-if="images" ref="dropZoneRef" class="relative min-h-screen p-4">
       <BottomMenu class="bottom-menu">
         <template #logo>
           <img src="/logo.svg" width="29" height="20">
@@ -93,15 +93,11 @@ async function clearSession () {
         </template>
       </BottomMenu>
 
+      <!-- 核心：所有元素（文字、按钮、图片）都在同一个瀑布流容器中 -->
       <div class="w-full masonry-container">
-        <div v-if="loggedIn">
-          <input ref="fileInput" class="hidden" type="file" accept="image/*" @change="fileSelection">
-          <UploadButton :uploading="uploadingImg" type="submit" class="mb-6" :is-over-drop-zone="isOverDropZone"
-            @click="openFilePicker" />
-        </div>
         
-        <!-- 修改点：去掉了 h-[60vh]、w-full、items-center 等撑满和居中属性，回归自然文本流 -->
-        <div v-else class="text-2xl text-white flex flex-col gap-y-4 py-8">
+        <!-- 文字区域：作为第一个 masonry-item，占据左上角 -->
+        <div v-if="!loggedIn" class="masonry-item text-2xl text-white flex flex-col gap-y-4 p-4">
           <h1 class="font-medium text-5xl">
             Welcome to Fairy.li
           </h1>
@@ -109,11 +105,17 @@ async function clearSession () {
             您必须登录才能开始上传图片
           </p>
         </div>
+        
+        <!-- 上传按钮：作为第二个 masonry-item -->
+        <div v-if="loggedIn" class="masonry-item">
+          <input ref="fileInput" class="hidden" type="file" accept="image/*" @change="fileSelection">
+          <UploadButton :uploading="uploadingImg" type="submit" class="mb-6" :is-over-drop-zone="isOverDropZone"
+            @click="openFilePicker" />
+        </div>
 
-        <!-- 瀑布流列表 -->
-        <ul v-if="images && images.length" class="masonry-list">
-          <li v-for="image in images" ref="mansoryItem" :key="image.pathname"
-            class="masonry-item relative group">
+        <!-- 图片列表：每个图片都是一个 masonry-item -->
+        <template v-if="images && images.length">
+          <div v-for="image in images" :key="image.pathname" class="masonry-item relative group">
             
             <UButton v-if="loggedIn" :loading="deletingImg === image.pathname" color="white"
               icon="i-heroicons-trash-20-solid"
@@ -123,12 +125,13 @@ async function clearSession () {
             <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]" class="block">
               <img v-if="image" :src="`/images/${image.pathname}`"
                 :class="{ imageEl: image.pathname.split('.')[0] === active }"
-                class="max-w-full max-h-[65vh] w-auto h-auto mx-auto rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
+                class="max-w-full max-h-[65vh] w-auto h-auto mx-auto block transition-all duration-200 brightness-[.8] hover:brightness-100 will-change-[filter]"
                 alt="Gallery Image" />
             </NuxtLink>
             
-          </li>
-        </ul>
+          </div>
+        </template>
+        
       </div>
     </section>
     
@@ -155,51 +158,38 @@ async function clearSession () {
   .bottom-menu-button {
     view-transition-name: vtn-bottom-menu-button;
   }
-
-  .container-image {
-    background-color: rgba(255, 255, 255, 0.1)
-  }
-
-  .container-image:hover {
-    background-color: transparent;
-  }
-
-  .border-image {
-    border-width: 1.15px;
-    border-color: rgba(255, 255, 255, 0.1)
-  }
 }
 
-.masonry-list {
+/* 瀑布流容器：零间距 */
+.masonry-container {
   column-count: 1;
-  column-gap: 16px;
-  margin: 20px auto 0;
-  padding: 0 1rem;
+  column-gap: 0;
+  margin: 0;
+  padding: 0;
 }
 
 @media screen and (min-width: 640px) {
-  .masonry-list {
+  .masonry-container {
     column-count: 2;
   }
 }
 
 @media screen and (min-width: 1024px) {
-  .masonry-list {
+  .masonry-container {
     column-count: 3;
-    column-gap: 20px;
-    padding: 0 2rem;
   }
 }
 
 @media screen and (min-width: 1536px) {
-  .masonry-list {
+  .masonry-container {
     column-count: 4;
   }
 }
 
+/* 瀑布流项目：零间距 */
 .masonry-item {
   display: inline-block;
-  margin: 0 0 20px;
+  margin: 0;
   width: 100%;
   break-inside: avoid;
   page-break-inside: avoid;
