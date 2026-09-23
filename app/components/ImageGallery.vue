@@ -108,25 +108,41 @@ async function clearSession () {
           </p>
         </div>
 
-        <ul v-if="images && images.length" class="grid grid-cols-1 gap-4 lg:block">
-          <li v-for="image in images" ref="mansoryItem" :key="image.pathname"
-            class="relative w-full group masonry-item">
-            <UButton v-if="loggedIn" :loading="deletingImg === image.pathname" color="white"
+                <!-- 完美复刻 Next.js 瀑布流布局 -->
+        <div v-if="images && images.length" class="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4 px-2 sm:px-4">
+          
+          <div 
+            v-for="image in images" 
+            :key="image.pathname" 
+            class="relative mb-4 break-inside-avoid group"
+          >
+            <!-- 删除按钮 (悬浮显示) -->
+            <UButton 
+              v-if="loggedIn" 
+              :loading="deletingImg === image.pathname" 
+              color="white"
               icon="i-heroicons-trash-20-solid"
-              class="absolute top-4 right-4 z-[9999] opacity-0 group-hover:opacity-100"
-              @click="deleteFile(image.pathname)" />
-            <NuxtLink :to="`/detail/${image.pathname.split('.')[0]}`" @click="active = image.pathname.split('.')[0]">
+              class="absolute top-4 right-4 z-[9999] opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              @click="deleteFile(image.pathname)" 
+            />
+            
+            <!-- 图片链接 -->
+            <NuxtLink 
+              :to="`/detail/${image.pathname.split('.')[0]}`" 
+              @click="active = image.pathname.split('.')[0]"
+              class="block w-full"
+            >
+              <!-- 核心：纯粹的 w-full + h-auto，无任何裁切或高度限制！ -->
               <img 
-               v-if="image" 
-               width="527" 
-               height="430" 
-               :src="`/images/${image.pathname}`"
-               :class="{ imageEl: image.pathname.split('.')[0] === active }"
-               class="w-full h-auto max-h-[70vh] rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
-              >
+                :src="`/images/${image.pathname}`"
+                :class="{ imageEl: image.pathname.split('.')[0] === active }"
+                class="w-full h-auto rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter]"
+                alt="Gallery Image"
+              />
             </NuxtLink>
-          </li>
-        </ul>
+            
+          </div>
+        </div>
       </div>
     </section>
     <div v-else class="flex items-center space-x-4 z-10">
