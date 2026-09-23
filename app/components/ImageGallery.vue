@@ -184,35 +184,44 @@ async function clearSession () {
 
 .masonry-container {
   column-count: 1;
-  column-gap: 8px;
+  column-gap: 16px;   /* 对齐 Next 的 gap-4 */
   margin: 0;
-  padding: 0; 
+  padding: 0;
 }
 
 @media screen and (min-width: 640px) {
   .masonry-container {
-    column-count: 3;
+    column-count: 2;  /* 原 3 → 改 2 */
+    column-gap: 24px; /* 对齐 sm:gap-6 */
   }
 }
 
 @media screen and (min-width: 1024px) {
   .masonry-container {
-    column-count: 4;
+    column-count: 3;  /* 原 4 → 改 3 */
   }
 }
 
-@media screen and (min-width: 1536px) {
+@media screen and (min-width: 1280px) {
   .masonry-container {
-    column-count: 5;
+    column-count: 4;  /* 新增，对齐 Next 的 xl:columns-4 */
   }
 }
+
+/* 删除原来 1536px 的 5 列规则，或者保留但改成 4 列也行 */
 
 .masonry-item {
   display: inline-block;
-  margin: 0 0 8px 0;
+  margin: 0 0 16px 0;   /* 原 8px → 改 16px */
   width: 100%;
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
+}
+
+@media screen and (min-width: 640px) {
+  .masonry-item {
+    margin-bottom: 24px; /* 对齐 sm:mb-6 */
+  }
 }
 </style>
