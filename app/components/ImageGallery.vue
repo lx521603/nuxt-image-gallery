@@ -156,34 +156,39 @@ async function clearSession () {
   }
 }
 
+/* 瀑布流容器：间距翻倍 (4px -> 8px) */
 .masonry-container {
   column-count: 1;
-  column-gap: 4px;
+  column-gap: 8px;
   margin: 0;
-  padding: 0;
+  padding: 0 8px; /* 两侧留出一点边距，更美观 */
 }
 
+/* 平板：2列变3列 (宽度缩小约 33%) */
 @media screen and (min-width: 640px) {
-  .masonry-container {
-    column-count: 2;
-  }
-}
-
-@media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 3;
   }
 }
 
-@media screen and (min-width: 1536px) {
+/* 桌面端：3列变4列 (宽度缩小 25%) */
+@media screen and (min-width: 1024px) {
   .masonry-container {
     column-count: 4;
   }
 }
 
+/* 宽屏：4列变5列 (宽度精准缩小 20%) */
+@media screen and (min-width: 1536px) {
+  .masonry-container {
+    column-count: 5;
+  }
+}
+
+/* 瀑布流项目：间距翻倍 (4px -> 8px) */
 .masonry-item {
   display: inline-block;
-  margin: 0 0 4px 0;
+  margin: 0 0 8px 0;
   width: 100%;
   break-inside: avoid;
   page-break-inside: avoid;
