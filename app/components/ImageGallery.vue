@@ -3,7 +3,7 @@ const isOpen = ref(false)
 
 const dropZoneRef = ref<HTMLElement>()
 const fileInput = ref<HTMLInputElement>()
-const mansoryItem = ref<Array<HTMLElement>>([])
+const _mansoryItem = ref<Array<HTMLElement>>([])
 const deletingImg = ref('')
 const uploadingImg = ref(false)
 const disconnect = ref(false)

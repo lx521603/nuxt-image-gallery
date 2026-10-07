@@ -19,6 +19,12 @@ export default defineNuxtConfig({
     env: 'production',
     trailingSlash: false
   },
+  
+  nitro: {
+    cloudflare: {
+      nodejsCompat: true
+    }
+  },
 
   colorMode: {
     classSuffix: '',
