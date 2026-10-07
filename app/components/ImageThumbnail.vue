@@ -10,7 +10,7 @@ defineProps({
 
 const route = useRoute()
 
-function isCurrentImage (pathname: string) {
+function isCurrentImage(pathname: string) {
   const currentSlug = route.params.slug
   if (!currentSlug || !currentSlug[0]) return false
 
@@ -19,12 +19,21 @@ function isCurrentImage (pathname: string) {
 </script>
 
 <template>
-  <li v-if="$router.currentRoute.value.params.slug" class="text-black inline-block relative"
-    :class="{ 'z-50': isCurrentImage(thumbnail.pathname) }">
+  <li
+    v-if="$router.currentRoute.value.params.slug"
+    class="text-black inline-block relative"
+    :class="{ 'z-50': isCurrentImage(thumbnail.pathname) }"
+  >
     <NuxtLink :to="`/detail/${encodeImageSlug(thumbnail.pathname)}`">
-      <img v-if="thumbnail" width="83" height="51" :src="`/images/${thumbnail.pathname}`" :alt="thumbnail.key"
+      <img
+        v-if="thumbnail"
+        width="83"
+        height="51"
+        :src="`/images/${thumbnail.pathname}`"
+        :alt="thumbnail.key"
         class="object-cover rounded-md transition-all duration-500 hover:brightness-100 w-[83px] h-[51px]"
-        :class="isCurrentImage(thumbnail.pathname) ? 'active brightness-100' : 'opacity-75 brightness-50'">
+        :class="isCurrentImage(thumbnail.pathname) ? 'active brightness-100' : 'opacity-75 brightness-50'"
+      >
     </NuxtLink>
   </li>
 </template>

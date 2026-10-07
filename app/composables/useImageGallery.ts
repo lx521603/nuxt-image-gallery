@@ -3,7 +3,7 @@ import type { BlobObject } from '@nuxthub/core'
 import type { FilePlugin } from '../../types'
 import { encodeImageSlug, decodeImageSlug, isImageMatch } from '../utils/url.ts'
 
-export function useImageGallery () {
+export function useImageGallery() {
   const nuxtApp = useNuxtApp()
   const config = useRuntimeConfig()
   const imageToDownload = ref<HTMLImageElement>()
@@ -53,7 +53,7 @@ export function useImageGallery () {
     useSwipe(el, {
       passive: false,
 
-      onSwipeEnd (e: TouchEvent, direction: UseSwipeDirection) {
+      onSwipeEnd(e: TouchEvent, direction: UseSwipeDirection) {
         const current = currentIndex.value
 
         if (direction === 'left') {

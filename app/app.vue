@@ -27,11 +27,14 @@ await getImages()
 </script>
 
 <template>
-  <UApp class="bg-black min-h-[100dvh] overflow-x-auto relative"
-    :class="{ 'flex flex-col md:block': $router.currentRoute.value.fullPath !== '/' }">
+  <UApp
+    class="bg-black min-h-[100dvh] overflow-x-auto relative"
+    :class="{ 'flex flex-col md:block': $router.currentRoute.value.fullPath !== '/' }"
+  >
     <NuxtPage />
     <ImageThumbnailList
-      :class="$router.currentRoute.value.fullPath !== '/' ? 'opacity-100 z-[9999]' : 'opacity-0 z-[-1]'" />
+      :class="$router.currentRoute.value.fullPath !== '/' ? 'opacity-100 z-[9999]' : 'opacity-0 z-[-1]'"
+    />
   </UApp>
 </template>
 

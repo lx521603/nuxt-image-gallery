@@ -7,7 +7,7 @@ const loading = ref(false)
 
 const toast = useToast()
 
-async function login () {
+async function login() {
   if (loading.value || !password.value) return
   loading.value = true
   await $fetch('/api/auth', {
@@ -30,10 +30,27 @@ async function login () {
 </script>
 
 <template>
-  <form class="flex flex-col gap-y-4 p-4 items-center" @submit.prevent="login">
-    <UInput v-model="password" type="password" placeholder="密码" icon="i-heroicons-key" class="!w-60" />
+  <form
+    class="flex flex-col gap-y-4 p-4 items-center"
+    @submit.prevent="login"
+  >
+    <UInput
+      v-model="password"
+      type="password"
+      placeholder="密码"
+      icon="i-heroicons-key"
+      class="!w-60"
+    />
 
-    <UButton :loading="loading" type="submit" label="Login" color="primary" variant="ghost" class="px-4" size="lg"
-      :disabled="!password" />
+    <UButton
+      :loading="loading"
+      type="submit"
+      label="Login"
+      color="primary"
+      variant="ghost"
+      class="px-4"
+      size="lg"
+      :disabled="!password"
+    />
   </form>
 </template>
