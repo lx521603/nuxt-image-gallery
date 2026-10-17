@@ -21,7 +21,7 @@
     "@nuxtjs/seo": "3.1.0",
     "@vueuse/core": "^13.5.0",
     "@vueuse/nuxt": "^14.4.0",
-    "nuxt": "^4.6.0",
+    "nuxt": "^4.6.1",
     "nuxt-auth-utils": "^0.5.20",
     "vue-advanced-cropper": "^2.8.9"
   },
@@ -40,7 +40,7 @@
     "vue-tsc": "^3.3.12",
     "wrangler": "^4.25.0"
   },
-  "packageManager": "pnpm@12.9.1",
+  "packageManager": "pnpm@12.14.0+sha512.c18ba6d87993d3d164cb5e8948f32b2c06ee854487e06cd8d86781342fb3e5bb4634367034711e86802baa9c37bea906ce1929ad08d70884c97d801df13389a6",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
